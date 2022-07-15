@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Shorten url results</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Result</h1>
+    <p th:text="'Given Url:: ' + ${shortenmodel.url}" />
+    <p th:text="'Shorten Url:: ' + ${shortenmodel.shortenUrl}" />
+    <a href="/">Generate another</a>
+</body>
+</html>
