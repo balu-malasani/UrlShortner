@@ -3,8 +3,8 @@ package com.poc.urlshortner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
- * 
- * @author malas
+ * Main class to load application
+ * @author Bala
  *
  */
 @SpringBootApplication
