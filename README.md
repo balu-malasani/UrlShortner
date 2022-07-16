@@ -53,13 +53,16 @@ The war file name : UrlShortner-0.0.1-SNAPSHOT.war
 
 To run the application please use the below command at project root directory
 
-java -jar  /target/UrlShortner-0.0.1-SNAPSHOT.war
+    java -jar  /target/UrlShortner-0.0.1-SNAPSHOT.war
+
 
 Ex: java -jar D:/work/spring/UrlShortner/target/UrlShortner-0.0.1-SNAPSHOT.war 
 
 To open home page open Url http://localhost:8080 on browser(By default application running on port 8080)
 
+If user enter invalid urls it will show error message.
 
+Note: If you get the errors like "Error: Unable to access jar file /target/UrlShortner-0.0.1-SNAPSHOT.war", please change the permissions of the war file by chmod 777 in Mac
 
 
 
