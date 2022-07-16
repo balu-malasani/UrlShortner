@@ -3,8 +3,13 @@ package com.poc.urlshortner.util;
 import java.net.URLDecoder;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.poc.urlshortner.controller.UrlShortnerController;
 
 public class ConversionUtil {
+	private static final Logger LOG = LoggerFactory.getLogger(ConversionUtil.class);
 
 	private static final String ALLOWED_DATA = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private char[] allowedValues = ALLOWED_DATA.toCharArray();
@@ -45,7 +50,7 @@ public class ConversionUtil {
             String decodedUrlString = URLDecoder.decode(url, "UTF-8");
             return decodedUrlString;
         } catch (Exception exception) {
-        	System.out.println("Exception while decoding Url"+exception.getMessage());
+        	LOG.error("Exception while decoding Url::{}",exception.getMessage());
             return "Error at decode Url" + exception.getMessage();
         }
     }
