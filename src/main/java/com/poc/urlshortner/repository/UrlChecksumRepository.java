@@ -3,9 +3,9 @@ package com.poc.urlshortner.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.poc.urlshortner.entity.UrlShortnerEntity;
+import com.poc.urlshortner.entity.UrlChecksumEntity;
 
 @Repository
-public interface UrlShortnerRepository extends CrudRepository<UrlShortnerEntity, Long> {
+public interface UrlChecksumRepository extends CrudRepository<UrlChecksumEntity, String>{
 
 }
