@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.poc.urlshortner.entity.UrlChecksumEntity;
 
 @Repository
-public interface UrlChecksumRepository extends CrudRepository<UrlChecksumEntity, String>{
+public interface UrlChecksumRepository extends CrudRepository<UrlChecksumEntity, String> {
 
 }

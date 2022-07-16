@@ -4,6 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * 
+ * @author Bala
+ *
+ */
 @Entity
 public class UrlChecksumEntity {
 
@@ -11,22 +16,21 @@ public class UrlChecksumEntity {
 	private String id;
 	@Column(nullable = false)
 	private String shortUrl;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getShortUrl() {
 		return shortUrl;
 	}
+
 	public void setShortUrl(String shortUrl) {
 		this.shortUrl = shortUrl;
 	}
-	@Override
-	public String toString() {
-		return "UrlChecksumEntity [id=" + id + ", shortUrl=" + shortUrl + "]";
-	}
-	
-	
+
 }

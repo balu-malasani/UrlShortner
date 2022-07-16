@@ -1,7 +1,13 @@
 package com.poc.urlshortner.service;
 
+/**
+ * 
+ * @author Bala
+ *
+ */
 public interface IUrlShortnerService {
 
 	String saveShortenUrl(String actualUrl);
-	String getActaulUrl(String shortenUrl);
+
+	String getActualUrl(String shortenUrl);
 }

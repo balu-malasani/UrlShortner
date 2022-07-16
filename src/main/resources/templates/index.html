@@ -6,9 +6,10 @@
 </head>
 <body>
 	<h1>Generate shorten Url</h1>
+	
     <form action="#" th:action="@{/generateUrl}" th:object="${shortenmodel}" method="post">
     	<p>Enter url <input type="text" th:field="*{url}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <p><input type="submit" value="Submit"/> <input type="reset" value="Reset" /></p>
     </form>
        
 </body>

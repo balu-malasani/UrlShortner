@@ -2,6 +2,7 @@ package com.poc.urlshortner.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.core.RepositoryCreationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -13,35 +14,46 @@ import com.poc.urlshortner.repository.UrlShortnerRepository;
 import com.poc.urlshortner.service.IUrlShortnerService;
 import com.poc.urlshortner.util.ConversionUtil;
 
+/**
+ * Service calss to handle business logic
+ * 
+ * @author Bala
+ *
+ */
 @Service
 public class UrlShortnerServiceImpl implements IUrlShortnerService {
+	private static final String ERROR = "error";
+
 	private static final Logger LOG = LoggerFactory.getLogger(UrlShortnerController.class);
 
-	private UrlShortnerRepository repository;
+	private UrlShortnerRepository urlShortnerRepository;
 
 	private UrlChecksumRepository checksumRepository;
 
 	public UrlShortnerServiceImpl(UrlShortnerRepository urlShortnerRepository,
 			UrlChecksumRepository urlChecksumRepository) {
-		this.repository = urlShortnerRepository;
+		this.urlShortnerRepository = urlShortnerRepository;
 		this.checksumRepository = urlChecksumRepository;
 	}
-
+    /**
+     * To convert given url to shorten url and save o Database.
+     * @param actaulUrl
+     */
 	@Override
 	public String saveShortenUrl(String actualUrl) {
 		try {
-			
-			if (repository != null && checksumRepository != null && StringUtils.hasLength(actualUrl)) {
+			if (urlShortnerRepository != null && checksumRepository != null && StringUtils.hasLength(actualUrl)) {
 				ConversionUtil util = new ConversionUtil();
 				String checksum = util.computeCheckSum(actualUrl);
-				LOG.info("Checksum"+checksum);
+				LOG.info("UrlShortnerServiceImpl::UrlShortnerServiceImpl() - Checksum value::{}", checksum);
 				if (checksumRepository.existsById(checksum)) {
 					return checksumRepository.findById(checksum).get().getShortUrl();
 				} else {
 					UrlShortnerEntity urlEntity = new UrlShortnerEntity();
 					urlEntity.setActualUrl(actualUrl);
-					long id = repository.save(urlEntity).getId();
-					LOG.info("ID::"+id);
+					UrlShortnerEntity entiry = urlShortnerRepository.save(urlEntity);
+					long id = entiry.getId();
+
 					UrlChecksumEntity checksumEntity = new UrlChecksumEntity();
 					String shortUrl = util.encode(id);
 					checksumEntity.setId(checksum);
@@ -49,27 +61,35 @@ public class UrlShortnerServiceImpl implements IUrlShortnerService {
 					return checksumRepository.save(checksumEntity).getShortUrl();
 				}
 			}
+		} catch (RepositoryCreationException repositoryCreationException) {
+			LOG.error("UrlShortnerServiceImpl : saveShortenUrl RepositoryCreationException::{}"
+					+ repositoryCreationException.getMessage());
 		} catch (Exception exception) {
-			LOG.info("Exception::" + exception.getMessage());
+			LOG.error("UrlShortnerServiceImpl : saveShortenUrl Exception::{}" + exception.getMessage());
 		}
-		return "";
-	}
 
-	
+		return ERROR;
+	}
+    /**
+     * To get original url by using shorten url.
+     * @param shortenUrl
+     */
 	@Override
-	public String getActaulUrl(String shortenUrl) {
-       try {
-		if (StringUtils.hasLength(shortenUrl)) {
-			ConversionUtil util = new ConversionUtil();
-			long id = util.decode(shortenUrl);
-			if (repository.existsById(id)) {
-				return repository.findById(id).get().getActualUrl();
+	public String getActualUrl(String shortenUrl) {
+
+		try {
+
+			if (StringUtils.hasLength(shortenUrl)) {
+				ConversionUtil util = new ConversionUtil();
+				long id = util.decode(shortenUrl);
+				if (urlShortnerRepository.existsById(id)) {
+					return urlShortnerRepository.findById(id).get().getActualUrl();
+				}
 			}
+		} catch (Exception exception) {
+			LOG.error("UrlShortnerServiceImpl :: getActualUrl() - Exception while saving data::{}", exception.getMessage());
 		}
-       }catch(Exception exception) {
-    	   LOG.error("Exception while saving data::{}",exception.getMessage());
-       }
-		return "";
+		return ERROR;
 	}
 
 }
